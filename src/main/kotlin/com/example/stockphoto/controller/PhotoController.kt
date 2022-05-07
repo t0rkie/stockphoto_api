@@ -12,6 +12,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/photo")
+@CrossOrigin
 class PhotoController(private val photoRepository: PhotoRepository) {
 
     // 写真一覧
