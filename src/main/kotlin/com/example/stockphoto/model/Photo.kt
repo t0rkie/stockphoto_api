@@ -10,16 +10,16 @@ import javax.validation.constraints.NotNull
 @Entity
 data class Photo (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long,
 
     // 画像ファイルパス
     @get: NotBlank
-    val imagePath: String = "",
+    var imagePath: String,
 
     // 料金
     @get: NotNull
-    val photoPrice: Int = 0,
+    var photoPrice: Int,
 
     // 説明
-    val description: String = "",
+    var description: String,
 )
