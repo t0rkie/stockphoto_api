@@ -48,7 +48,6 @@ class PhotoController(private val photoRepository: PhotoRepository) {
     fun createNewPhoto(@Valid @ModelAttribute photoRequest: PhotoRequest): Photo {
 
         val imagePath = PhotoService().saveImage(photoRequest.image)
-
         val photo = Photo(
             id = 0,
             imagePath = imagePath,

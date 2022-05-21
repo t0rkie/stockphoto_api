@@ -38,3 +38,5 @@ out/
 
 ### mac ###
 .DS_Store
+
+/images/
