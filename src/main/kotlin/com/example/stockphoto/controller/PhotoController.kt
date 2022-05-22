@@ -5,9 +5,11 @@ import com.example.stockphoto.model.PhotoRequest
 import com.example.stockphoto.model.PhotoResponse
 import com.example.stockphoto.repository.PhotoRepository
 import com.example.stockphoto.service.PhotoService
+import org.springframework.data.jpa.repository.Query
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.io.File
 import javax.validation.Valid
 
 @RestController
@@ -73,6 +75,22 @@ class PhotoController(private val photoRepository: PhotoRepository) {
         }.orElse(ResponseEntity.notFound().build())
     }
 
+    // 全て削除
+    @DeleteMapping("/delete_all")
+    fun deleteAllPhoto() {
+        println("delete_all: called")
+        photoRepository.deleteAll()
+        resetAutoIncrement()
+
+        val path = File(".").absoluteFile.parent
+        val imagePath = "${path}/images/"
+        println("imagePath: $imagePath")
+
+        val f = File(imagePath)
+        f.listFiles().forEach { file ->  file.delete() }
+
+    }
+
     // 削除
     @DeleteMapping("/delete/{id}")
     fun deletePhotoById(@PathVariable(value = "id") photoId: Long): ResponseEntity<Void> {
@@ -80,5 +98,9 @@ class PhotoController(private val photoRepository: PhotoRepository) {
             photoRepository.delete(photo)
             ResponseEntity<Void>(HttpStatus.OK)
         }.orElse(ResponseEntity.notFound().build())
+    }
+
+    @Query(value = "ALTER TABLE photo AUTO_INCREMENT = 1;", nativeQuery = true)
+    fun resetAutoIncrement() {
     }
 }
